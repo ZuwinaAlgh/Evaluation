@@ -46,6 +46,7 @@ public class ApiSearch{
 			System.out.println("2.Search Word");
 			System.out.println("3.Unique Word");
 			System.out.println("4.Select file");
+			System.out.println("5.PDF file");
 			System.out.println("####################");
 			String menu = sa.next();
 			int option = Integer.parseInt(menu);
@@ -127,6 +128,7 @@ public class ApiSearch{
 			    break;
 			    
 			case 4:
+				
 				HttpClient client1 = HttpClient.newHttpClient();
 				HttpRequest request1 = HttpRequest.newBuilder()
 				.uri(URI.create("https://api.genderize.io/?name=luc"))
@@ -152,7 +154,60 @@ public class ApiSearch{
 				    e.printStackTrace();
 				    }
 				
+				while (menuExit) {
+					System.out.println("\n"+"\n"+"Choose which file you want to access:");
+					System.out.println("1.TXT File");
+					System.out.println("2.PDF File");
+				    int input = sa.nextInt();
+				    
+				    if(input==1) {
+				    	System.out.println("Enter word you want to search it:  ");
+					    String words1=sa.next();
+						boolean search1 = false;
+					    Scanner scanner1 = new Scanner(new FileInputStream("C:\\Users\\user011\\Desktop\\Evaluation\\DataFile.txt"));
+					     while(scanner1.hasNextLine()) {
+					        String line = scanner1.nextLine();
+					        System.out.println(line);
+					        if(line.indexOf(words1)!=-1) {
+					        	search = true;
+					        }
+					       
+					     }
+					     if(search1) {
+					        System.out.println("File contains the specified word: "+words1);
+					     } else {
+					        System.out.println("File does not contain the specified word"+words1);
+					     }
+				    	
+				    }
+				    else {
+				    	if(input==2) {
+				    		System.out.println("Enter word you want to search it:  ");
+						    String words2=sa.next();
+							boolean search2 = false;
+						    Scanner scanner2 = new Scanner(new FileInputStream("C:\\Users\\user011\\Desktop\\Evaluation\\DataFilePDF.pdf"));
+						     while(scanner2.hasNextLine()) {
+						        String line = scanner2.nextLine();
+						        System.out.println(line);
+						        if(line.indexOf(words2)!=-1) {
+						        	search = true;
+						        }
+						       
+						     }
+						     if(search2) {
+						        System.out.println("File contains the specified word: "+words2);
+						     } else {
+						        System.out.println("File does not contain the specified word"+words2);
+						     }
+				    	}
+				    
+				    
+
+				menuExit = false;
+			
+				}}
 				break;
+			
 			   
 		}}
 		menuExit = false;
