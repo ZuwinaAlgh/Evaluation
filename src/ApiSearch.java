@@ -27,6 +27,8 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
 
+import javax.swing.text.html.HTMLDocument.Iterator;
+
 import org.xml.sax.ErrorHandler;
 
 
@@ -42,8 +44,8 @@ public class ApiSearch{
 			System.out.println("####################");
 			System.out.println("1.print API File");
 			System.out.println("2.Search Word");
-			System.out.println("3.Duplicate Word");
-			System.out.println("4.Duplicate Words");
+			System.out.println("3.Unique Word");
+			System.out.println("4.Select file");
 			System.out.println("####################");
 			String menu = sa.next();
 			int option = Integer.parseInt(menu);
@@ -94,7 +96,7 @@ public class ApiSearch{
 			     if(search) {
 			        System.out.println("File contains the specified word: "+words);
 			     } else {
-			        System.out.println("File does not contain the specified word");
+			        System.out.println("File does not contain the specified word"+words);
 			     }
 		     
 				break;
@@ -108,61 +110,50 @@ public class ApiSearch{
 			    System.out.println("Enter second word you want to search it:   ");
 			    String word2=sa.next();
 			    listWords.add(word2);
-			    Scanner scanners = new Scanner(new FileInputStream("C:\\Users\\user011\\Desktop\\Evaluation\\DataFile.txt"));
-			    while(scanners.hasNextLine()) {
-			        String line = scanners.nextLine();
-			        System.out.println(line);
-			        if(line.indexOf(word)!=-1) {
-			        	search = true;
-			        }
-			      
+			    boolean searchs=false;
+			    Scanner scanners = new Scanner(new FileInputStream("C:\\\\Users\\\\user011\\\\Desktop\\\\Evaluation\\\\DataFile.txt"));
+			   
 			        for(String word1 : listWords) {
 			            if( unique.add( word1 )==true ){
-			      	  System.out.println("yes "+word1+"is Found");
-			                 }
+			            	System.out.println("yes" +word1+"is in the File");
+			            }
 			            else {
-			            	if( unique.add( word2 )==true ){
-			            		System.out.println("No "+word2+"is Not Found");
-						                 }
-			            }	  
-						     }
+			            	if( unique.add( word1 )==false ){
+				            	System.out.println("No" +word2+"is not in the File");
+				            }
+			            	
+			            }
 			            }
 			    break;
 			    
 			case 4:
-				int size, i, j, count;
+				HttpClient client1 = HttpClient.newHttpClient();
+				HttpRequest request1 = HttpRequest.newBuilder()
+				.uri(URI.create("https://api.genderize.io/?name=luc"))
+				.build();
+				HttpResponse<String> responses = client1.send(request1, HttpResponse.BodyHandlers.ofString());
 				
-				Scanner s= new Scanner(System.in);		
-				System.out.print("\n Please Enter the Unique Array size :");
-				size = s.nextInt();
+				try {
+				    FileInputStream fileinputstreems = new FileInputStream(new File("DataFile.pdf"));
+				    int ch;
+				    while ((ch = fileinputstreems.read()) != -1) {
+				        System.out.print((char) ch);
+				    }
+				    fileinputstreems.close();
+				    } catch (IOException ex) {
+				    ex.printStackTrace();
+				    }
+
+				try {
+				    BufferedWriter bw = new BufferedWriter(new FileWriter("DataFile.pdf"));
+				    bw.write(responses.body());
+				    bw.close();
+				    } catch (IOException e) {
+				    e.printStackTrace();
+				    }
 				
-				int[] org_arr = new int[size];
-				int[] unqArr = new int[size];
-				
-				System.out.format("\nEnter Arrays %d words : ", size);
-				for(i = 0; i < size; i++) {
-					org_arr[i] = s.nextInt();
-					unqArr[i] = -1;
-				}
-				for(i = 0; i < size; i++) {
-					count = 1;
-					for(j = i + 1; j < size; j++) {
-						if(org_arr[i] == org_arr[j]) {
-						count++;
-						unqArr[j] = 0;
-					}
-				}
-				if(unqArr[i] != 0) {
-					unqArr[i] = count;
-					}
-				}
-				System.out.println("\n Unique word is :");
-				for(i = 0; i < size; i++) {
-					if(unqArr[i] == 1) {
-						System.out.format("%d  ", org_arr[i]);
-					}
-				}
-		break;
+				break;
+			   
 		}}
 		menuExit = false;
 			
