@@ -15,6 +15,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,17 +38,16 @@ import org.xml.sax.ErrorHandler;
 public class ApiSearch{
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		boolean menuExit = true;
+		boolean menuExit1 = true;
 		Scanner sa = new Scanner(System.in);
 	
 	   
-		while (menuExit) {
+		while (menuExit1) {
 			System.out.println("####################");
 			System.out.println("1.print API File");
 			System.out.println("2.Search Word");
 			System.out.println("3.Unique Word");
 			System.out.println("4.Select file");
-			System.out.println("5.PDF file");
 			System.out.println("####################");
 			String menu = sa.next();
 			int option = Integer.parseInt(menu);
@@ -94,7 +95,7 @@ public class ApiSearch{
 			        }
 			       
 			     }
-			     if(search) {
+			     if(search){
 			        System.out.println("File contains the specified word: "+words);
 			     } else {
 			        System.out.println("File does not contain the specified word"+words);
@@ -153,15 +154,18 @@ public class ApiSearch{
 				    } catch (IOException e) {
 				    e.printStackTrace();
 				    }
-				
+				////////////////////choose file 
+				boolean menuExit = true;
 				while (menuExit) {
-					System.out.println("\n"+"\n"+"Choose which file you want to access:");
+					System.out.println("####################");
 					System.out.println("1.TXT File");
 					System.out.println("2.PDF File");
-				    int input = sa.nextInt();
-				    
-				    if(input==1) {
-				    	System.out.println("Enter word you want to search it:  ");
+					System.out.println("####################");
+					String menu2 = sa.next();
+					int options = Integer.parseInt(menu2);
+					switch (options) {
+					case 1:
+						System.out.println("Enter word you want to search it:  ");
 					    String words1=sa.next();
 						boolean search1 = false;
 					    Scanner scanner1 = new Scanner(new FileInputStream("C:\\Users\\user011\\Desktop\\Evaluation\\DataFile.txt"));
@@ -169,48 +173,58 @@ public class ApiSearch{
 					        String line = scanner1.nextLine();
 					        System.out.println(line);
 					        if(line.indexOf(words1)!=-1) {
-					        	search = true;
+					        	search1 = true;
 					        }
 					       
 					     }
-					     if(search1) {
+					     if(search1){
 					        System.out.println("File contains the specified word: "+words1);
 					     } else {
 					        System.out.println("File does not contain the specified word"+words1);
 					     }
-				    	
-				    }
-				    else {
-				    	if(input==2) {
-				    		System.out.println("Enter word you want to search it:  ");
-						    String words2=sa.next();
-							boolean search2 = false;
-						    Scanner scanner2 = new Scanner(new FileInputStream("C:\\Users\\user011\\Desktop\\Evaluation\\DataFilePDF.pdf"));
-						     while(scanner2.hasNextLine()) {
-						        String line = scanner2.nextLine();
-						        System.out.println(line);
-						        if(line.indexOf(words2)!=-1) {
-						        	search = true;
-						        }
-						       
-						     }
-						     if(search2) {
-						        System.out.println("File contains the specified word: "+words2);
-						     } else {
-						        System.out.println("File does not contain the specified word"+words2);
-						     }
-				    	}
+					     System.out.println("Enter 1 to continue OR 0 to EXIT:");
+					 	   int optionsss=sa.nextInt();
+					 	   if(optionsss==0)   
+					 	       menuExit=false;
+				   break;
+				   
+				case 2:
+					System.out.println("Enter word you want to search it:  ");
+				    String words2=sa.next();
+					boolean search2 = false;
+				    Scanner scanner2 = new Scanner(new FileInputStream("C:\\Users\\user011\\Desktop\\DataFile.pdf"));
+				     while(scanner2.hasNextLine()) {
+				        String line = scanner2.nextLine();
+				        System.out.println(line);
+				        if(line.indexOf(words2)!=-1) {
+				        	search2 = true;
+				        }
+				       
+				     }
+				     if(search2){
+				        System.out.println("File contains the specified word: "+words2);
+				        Path p= Files.copy(Paths.get("C:\\Users\\user011\\Desktop\\DataFile.pdf"),Paths.get("C:\\Users\\user011\\Desktop\\NewFile2\\DataFile2.pdf"));
+					     if(p !=null) {
+					    	 System.out.println("File is transfer Successfuly");
+					     }
+					     
+				     } else {
+				        System.out.println("File does not contain the specified word"+words2);
+				     }
+				     
 				    
-				    
-
-				menuExit = false;
-			
-				}}
+				     System.out.println("Enter 1 to continue OR 0 to EXIT:");
+				 	   int optionss=sa.nextInt();
+				 	   if(optionss==0)   
+				 	       menuExit=false;
+				
 				break;
-			
-			   
-		}}
-		menuExit = false;
+					
+					}}
+
+		}
+	}
+		menuExit1 = false;
 			
 	}
 	}
